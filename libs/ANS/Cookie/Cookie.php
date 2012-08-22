@@ -25,7 +25,7 @@ class Cookie {
     {
         $cookie = $this->get();
 
-        if (is_array($values)) {
+        if (is_array($values) && is_array($cookie)) {
             foreach ($values as $key => $value) {
                 if ($value) {
                     $cookie[$key] = $value;
