@@ -6,7 +6,8 @@ class Cookie {
     private $expire = 2592000; // 30 days
     private $compress = true;
 
-    public function __construct ($name = '') {
+    public function __construct ($name = '')
+    {
         $this->name = $name ?: getenv('SERVER_NAME');
     }
 
