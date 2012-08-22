@@ -5,11 +5,8 @@ This script works as simple cookie interface with compress option
 
 You can store different data type into cookies.
 
-Examples
+Usage
 --------
-
-#### Files cache
-
     <?php
     include (__DIR__.'/libs/ANS/Cookie/Cookie.php');
 

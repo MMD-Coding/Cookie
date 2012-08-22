@@ -1,5 +1,5 @@
 {
-    "name": "ANS/Cookie",
+    "name": "ans/cookie",
     "type": "library",
     "description": "A Simple Cookie Interface with compress option",
     "version": "1.0",
