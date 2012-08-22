@@ -1,0 +1,32 @@
+{
+    "name": "ANS/Cookie",
+    "type": "library",
+    "description": "A Simple Cookie Interface with compress option",
+    "version": "1.0",
+    "keywords": ["php", "cookie"],
+    "homepage": "https://github.com/eusonlito/Cookie/",
+    "license": "AGPL-3.0",
+    "authors": [
+        {
+            "name": "A Navalla Suíza",
+            "email": "idc@anavallasuiza.com",
+            "homepage": "http://anavallasuiza.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "idc@anavallasuiza.com",
+        "issues": "https://github.com/eusonlito/Cookie/issues"
+    },
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "config": {
+        "vendor-dir": "libs"
+    },
+    "autoload": {
+        "psr-0": {
+            "ANS\\Cookie": "libs"
+        }
+    }
+}
