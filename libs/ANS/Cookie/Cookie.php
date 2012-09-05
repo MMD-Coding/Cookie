@@ -2,26 +2,37 @@
 namespace ANS\Cookie;
 
 class Cookie {
-    private $name;
-    private $expire = 2592000; // 30 days
-    private $compress = true;
+    private $settings = array();
 
-    public function __construct ($name = '')
+    public function __construct ()
     {
-        $this->name = $name ?: getenv('SERVER_NAME');
+        $this->setSettings(array(
+            'name' => getenv('SERVER_NAME'),
+            'expire' => 2592000,
+            'compress' => true,
+            'path' => '/',
+            'domain' => getenv('SERVER_NAME'),
+            'secure' => false,
+            'httponly' => false
+        ));
     }
 
-    public function setName ($name)
+    public function setSettings ($settings)
     {
-        return $this->name = $name;
+        if (isset($settings['expire'])) {
+            $settings['expire'] = preg_match('/^[0-9]+$/', $settings['expire']) ? intval($settings['expire']) : strtotime($settings['expire']);
+        }
+
+        if (isset($settings['domain'])) {
+            $settings['domain'] = (strpos($settings['domain'], '.') !== false) ? $settings['domain'] : null;
+        }
+
+        foreach ($settings as $setting => $value) {
+            $this->settings[$setting] = $value;
+        }
     }
 
-    public function setExpire ($time)
-    {
-        return $this->expire = preg_match('/^[0-9]+$/', $time) ? intval($time) : strtotime($time);
-    }
-
-    public function set ($values, $time = null)
+    public function set ($values, $expire = null)
     {
         $cookie = $this->get();
 
@@ -40,25 +51,33 @@ class Cookie {
         if ($cookie) {
             $cookie = serialize($cookie);
 
-            if ($this->compress) {
+            if ($this->settings['compress']) {
                 $cookie = gzdeflate($cookie);
             }
 
-            $time = time() + ($time ?: $this->expire);
+            $expire = time() + ($expire ?: $this->settings['expire']);
         } else {
             $cookie = '';
-            $time = time() - 3600;
+            $expire = time() - 3600;
         }
 
-        return setCookie($this->name, $cookie, $time);
+        return setCookie(
+            $this->settings['name'],
+            $cookie,
+            $expire,
+            $this->settings['path'],
+            $this->settings['domain'],
+            $this->settings['secure'],
+            $this->settings['httponly']
+        );
     }
 
     public function get ()
     {
-        if (isset($_COOKIE[$this->name])) {
-            $cookie = $_COOKIE[$this->name];
+        if (isset($_COOKIE[$this->settings['name']])) {
+            $cookie = $_COOKIE[$this->settings['name']];
 
-            if ($this->compress) {
+            if ($this->settings['compress']) {
                 $cookie = gzinflate($cookie);
             }
 
