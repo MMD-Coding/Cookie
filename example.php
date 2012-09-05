@@ -2,7 +2,11 @@
 include (__DIR__.'/libs/ANS/Cookie/Cookie.php');
 
 # Use language cookie
-$Cookie = new \ANS\Cookie\Cookie('language');
+$Cookie = new \ANS\Cookie\Cookie();
+
+$Cookie->setSettings(array(
+    'name' => 'language'
+));
 
 $language = $Cookie->get();
 
@@ -11,8 +15,10 @@ if (!$language) {
 }
 
 # Change to cookie data and set a new global expire
-$Cookie->setName('data');
-$Cookie->setExpire(3600);
+$Cookie->setSettings(array(
+    'name' => 'data',
+    'expire' => 3600
+));
 
 $data = $Cookie->get();
 
